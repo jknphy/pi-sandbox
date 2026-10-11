@@ -20,6 +20,19 @@
           "name": "Ollama (SUSE) default"
         }
       ]
+    },
+    "llamacpp": {
+      "baseUrl": "http://169.254.1.2:8080/v1",
+      "api": "openai-completions",
+      "apiKey": "none",
+      "models": [
+        {
+          "id": "Qwen3-4B-Instruct-2507-Q4_K_M",
+          "name": "llama.cpp local (Qwen3 4B)",
+          "contextWindow": 32768,
+          "maxTokens": 4096
+        }
+      ]
     }
   }
 }

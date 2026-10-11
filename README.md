@@ -49,3 +49,8 @@ State lives in the `pi-agent-home` volume and survives rebuilds.
 
 - Rootless podman, `--cap-drop=ALL`, `no-new-privileges`.
 - Only `application_default_credentials.json` is mounted (read-only), not the whole `~/.config/gcloud`; Pi's own `~/.pi/agent` is not mounted from the host.
+
+## Todo
+
+- [ ] Be able to run `/share` inside Pi and avoid error `Error: GitHub CLI is not logged in. Run 'gh auth login' first.`
+

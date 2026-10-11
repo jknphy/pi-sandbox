@@ -34,6 +34,7 @@ esac
 
 FLAGS=(
   --rm
+  --network pasta:--map-host-loopback,169.254.1.2
   -it
   --cap-drop=ALL
   --security-opt no-new-privileges
