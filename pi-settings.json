@@ -12,7 +12,7 @@
   ],
   "packages": [
     "npm:@twogiants/pi-anthropic-vertex",
-    "npm:@gotgenes/pi-permission-system",
+    "npm:pi-permission-modes",
     "npm:pi-web-access",
     "git:github.com/ayghri/i-have-adhd",
     "npm:@dietrichgebert/ponytail"

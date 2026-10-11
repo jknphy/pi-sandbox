@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 # ~/.local/bin/pi-sandbox
-#   pi-sandbox [--profile NAME] [args]  run the agent (profile: restricted (default) | dev)
+#   pi-sandbox [args]  run the agent; args go to pi (e.g. --perm plan)
+# Own config is mounted read-only; to edit skills/prompts/config, run a second
+# pi-sandbox from ~/Code/pi-sandbox and /reload the first one.
 
 set -euo pipefail
 
@@ -11,36 +13,19 @@ if [ -f "$HOME/Code/pi-sandbox/.env" ]; then
 fi
 
 mkdir -p "$HOME/Downloads/isos"
-# logs dir must exist on the host before the bind mount below
-mkdir -p "$HOME/Code/pi-sandbox/extensions/pi-permission-system/logs"
-
-# Profiles pick the pi-permission-system config and the mount mode:
-#   restricted (default): config.json, own dirs read-only (unattended runs)
-#   dev: config.dev.json, own dirs read-write (interactive skill/extension development)
-PROFILE=restricted
-ARGS=()
-while [ $# -gt 0 ]; do
-  case "$1" in
-    --profile) PROFILE="${2:?--profile needs a name}"; shift 2 ;;
-    *) ARGS+=("$1"); shift ;;
-  esac
-done
-PERM_DIR="$HOME/Code/pi-sandbox/extensions/pi-permission-system"
-case "$PROFILE" in
-  restricted) MODE=ro; PERM_CFG="$PERM_DIR/config.json" ;;
-  dev)        MODE=rw; PERM_CFG="$PERM_DIR/config.dev.json" ;;
-  *) echo "unknown profile: $PROFILE (restricted|dev)" >&2; exit 1 ;;
-esac
 
 FLAGS=(
   --rm
   --network pasta:--map-host-loopback,169.254.1.2
   -it
   --cap-drop=ALL
+  # bwrap (pi-permission-modes OS sandbox) maps uid 0 into a user namespace; kernel requires SETFCAP for that
+  --cap-add=SETFCAP
+  # bwrap mounts a fresh /proc per command; kernel refuses that while podman masks /proc paths
+  --security-opt "unmask=/proc/*"
   --security-opt no-new-privileges
   "${ENV_FLAGS[@]}"
   -e "GOOGLE_CLOUD_LOCATION=${GOOGLE_CLOUD_LOCATION:-global}"
-  -e "PI_PROFILE=$PROFILE"
   -e GOOGLE_APPLICATION_CREDENTIALS=/root/adc.json
   -v "$HOME/.config/gcloud/application_default_credentials.json:/root/adc.json:ro"
   -v "$PWD:/workspace"
@@ -48,19 +33,17 @@ FLAGS=(
   # agents can clash on sessions/auth. Make the name per-project, e.g.
   # "pi-agent-home-$(basename "$PWD")" (trade-off: separate sessions/login per project).
   -v "pi-agent-home:/root/.pi/agent"
-  -v "$HOME/Code/pi-sandbox/pi-settings.json:/root/.pi/agent/settings.json:$MODE"
-  -v "$HOME/Code/pi-sandbox/pi-models.json:/root/.pi/agent/models.json:$MODE"
-  -v "$HOME/Code/pi-sandbox/web-search.json:/root/.pi/agent/web-search.json:$MODE"
-  -v "$HOME/Code/pi-sandbox/APPEND_SYSTEM.md:/root/.pi/agent/APPEND_SYSTEM.md:$MODE"
-  -v "$HOME/Code/pi-sandbox/skills-custom:/root/.pi/agent/skills-custom:$MODE"
-  -v "$HOME/Code/pi-sandbox/skills:/root/.pi/agent/skills:$MODE"
-  -v "$HOME/Code/pi-sandbox/prompts:/root/.pi/agent/prompts:$MODE"
-  -v "$HOME/Code/pi-sandbox/extensions-custom:/root/.pi/agent/extensions-custom:$MODE"
-  -v "$PERM_DIR:/root/.pi/agent/extensions/pi-permission-system:ro"
-  -v "$PERM_DIR/logs:/root/.pi/agent/extensions/pi-permission-system/logs"
-  -v "$PERM_CFG:/root/.pi/agent/extensions/pi-permission-system/config.json:ro"
+  -v "$HOME/Code/pi-sandbox/pi-settings.json:/root/.pi/agent/settings.json:ro"
+  -v "$HOME/Code/pi-sandbox/pi-models.json:/root/.pi/agent/models.json:ro"
+  -v "$HOME/Code/pi-sandbox/web-search.json:/root/.pi/agent/web-search.json:ro"
+  -v "$HOME/Code/pi-sandbox/permission-mode.json:/root/.pi/agent/permission-mode/permission-mode.json:ro"
+  -v "$HOME/Code/pi-sandbox/APPEND_SYSTEM.md:/root/.pi/agent/APPEND_SYSTEM.md:ro"
+  -v "$HOME/Code/pi-sandbox/skills-custom:/root/.pi/agent/skills-custom:ro"
+  -v "$HOME/Code/pi-sandbox/skills:/root/.pi/agent/skills:ro"
+  -v "$HOME/Code/pi-sandbox/prompts:/root/.pi/agent/prompts:ro"
+  -v "$HOME/Code/pi-sandbox/extensions-custom:/root/.pi/agent/extensions-custom:ro"
   -v "$HOME/Downloads/isos:/root/Downloads/isos"
   -v "$HOME/Code/pi-sandbox/client.conf:/root/.config/openqa/client.conf:ro"
 )
 
-podman run "${FLAGS[@]}" pi-sandbox --approve "${ARGS[@]}"
+podman run "${FLAGS[@]}" pi-sandbox --approve "$@"

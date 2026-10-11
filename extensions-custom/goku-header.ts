@@ -1,5 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { VERSION } from "@earendil-works/pi-coding-agent";
+import { existsSync } from "node:fs";
 
 const GOKU = `
 ⠀⠀⠀⠹⣿⣿⣿⣿⣿⣷⣦⣄⠀⠀⠀⢀⣠⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
@@ -31,7 +32,7 @@ const ORANGE = "\x1b[38;2;255;140;0m";
 const RESET = "\x1b[0m";
 
 export default function (pi: ExtensionAPI) {
-	if (process.env.PI_PROFILE !== "dev") return; // production keeps the default header
+	if (!existsSync("Dockerfile.pi")) return; // only the instance editing this repo gets Goku
 	pi.on("session_start", async (_event, ctx) => {
 		if (ctx.mode !== "tui") return;
 		ctx.ui.setHeader((_tui, theme) => ({

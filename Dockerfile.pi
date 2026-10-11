@@ -7,6 +7,7 @@ RUN zypper --non-interactive install --no-recommends \
       bash ca-certificates curl git ripgrep python3 jq \
       nodejs-default npm-default \
       mkmedia xorriso openQA-client vim fd \
+      which bubblewrap socat \
   && zypper clean --all
 
 # SUSE internal CA (openqa.suse.de etc.)
@@ -20,6 +21,6 @@ ENV NODE_EXTRA_CA_CERTS=/etc/ssl/ca-bundle.pem
 RUN npm install -g @earendil-works/pi-coding-agent
 
 # Host ~/.pi/agent is deliberately not mounted (auth.json, sessions); state lives in the pi-agent-home volume.
-# pi-sandbox --profile dev mounts own dirs, skills and prompts rw and uses config.dev.json; default (restricted) is ro.
+# Own config (skills, prompts, settings, permission-mode.json) is mounted ro; edit it from a pi-sandbox run in this repo.
 WORKDIR /workspace
 ENTRYPOINT ["pi"]

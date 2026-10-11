@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/wynainfo/pi-permission-modes/main/schemas/permission-mode.schema.json",
+  "modes": {
+    "plan": {
+      "sandbox": {
+        "network": {
+          "allowedDomains": [
+            "npmjs.org",
+            "*.npmjs.org",
+            "registry.npmjs.org",
+            "registry.yarnpkg.com",
+            "pypi.org",
+            "*.pypi.org",
+            "github.com",
+            "*.github.com",
+            "api.github.com",
+            "raw.githubusercontent.com",
+            "example.com"
+          ],
+          "deniedDomains": []
+        }
+      }
+    }
+  }
+}
