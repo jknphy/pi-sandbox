@@ -1,7 +1,7 @@
 # pi-sandbox
 
 Personal setup for running the [Pi coding agent](https://www.npmjs.com/package/@earendil-works/pi-coding-agent)
-in a rootless podman container, with custom skills, prompts and a TUI header extension.
+in a rootless podman container, with custom skills and prompts.
 The agent can read the project (`$PWD` mounted at `/workspace`) and the mounted gcloud ADC file.
 
 ## Layout
@@ -16,7 +16,7 @@ The agent can read the project (`$PWD` mounted at `/workspace`) and the mounted 
 | `prompts/` | Prompt templates (`refactor`) |
 | `skills-custom/` | Own skills: `download-iso`, `modify-iso`, `prepare-iso` (SLES 16.x test ISOs) |
 | `skills/` | Downloaded third-party skills (`find-skills`, `herdr`), read-only |
-| `extensions-custom/` | Extensions (`goku-header.ts`: shown only when run from this repo) |
+| `extensions-custom/` | Custom extensions |
 | `.env` | Non-sensitive config, gitignored; copy from `.env.example` |
 
 ## Usage

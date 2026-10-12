@@ -3,6 +3,11 @@
   "modes": {
     "plan": {
       "sandbox": {
+        "allowWrite": [
+          ".",
+          "/tmp/pi",
+          "/usr/local/lib/node_modules/@earendil-works/pi-coding-agent"
+        ],
         "network": {
           "allowedDomains": [
             "npmjs.org",

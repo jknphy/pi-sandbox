@@ -27,6 +27,7 @@ FLAGS=(
   "${ENV_FLAGS[@]}"
   -e "GOOGLE_CLOUD_LOCATION=${GOOGLE_CLOUD_LOCATION:-global}"
   -e GOOGLE_APPLICATION_CREDENTIALS=/root/adc.json
+  -e PONYTAIL_DEFAULT_MODE=off
   -v "$HOME/.config/gcloud/application_default_credentials.json:/root/adc.json:ro"
   -v "$PWD:/workspace"
   # TODO(parallel agents): this volume is shared by every instance, so concurrent
@@ -38,6 +39,7 @@ FLAGS=(
   -v "$HOME/Code/pi-sandbox/web-search.json:/root/.pi/agent/web-search.json:ro"
   -v "$HOME/Code/pi-sandbox/permission-mode.json:/root/.pi/agent/permission-mode/permission-mode.json:ro"
   -v "$HOME/Code/pi-sandbox/APPEND_SYSTEM.md:/root/.pi/agent/APPEND_SYSTEM.md:ro"
+  -v "$HOME/Code/pi-sandbox/i-have-adhd.json:/root/.pi/agent/i-have-adhd.json:ro"
   -v "$HOME/Code/pi-sandbox/skills-custom:/root/.pi/agent/skills-custom:ro"
   -v "$HOME/Code/pi-sandbox/skills:/root/.pi/agent/skills:ro"
   -v "$HOME/Code/pi-sandbox/prompts:/root/.pi/agent/prompts:ro"
