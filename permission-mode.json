@@ -1,12 +1,22 @@
 {
   "$schema": "https://raw.githubusercontent.com/wynainfo/pi-permission-modes/main/schemas/permission-mode.schema.json",
   "modes": {
+    "default": {
+      "permission": {
+        "external_directory": { "*": "ask", "/root/.pi/agent/skills*": "allow" }
+      }
+    },
     "plan": {
+      "permission": {
+        "external_directory": { "*": "ask", "/root/.pi/agent/skills*": "allow" }
+      },
       "sandbox": {
         "allowWrite": [
           ".",
           "/tmp/pi",
-          "/usr/local/lib/node_modules/@earendil-works/pi-coding-agent"
+          "/usr/local/lib/node_modules/@earendil-works/pi-coding-agent",
+          "/root/.pi/agent/skills",
+          "/root/.pi/agent/skills-custom"
         ],
         "network": {
           "allowedDomains": [
@@ -20,6 +30,8 @@
             "*.github.com",
             "api.github.com",
             "raw.githubusercontent.com",
+            "openqa.suse.de",
+            "openqa.opensuse.org",
             "example.com"
           ],
           "deniedDomains": []

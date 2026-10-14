@@ -12,7 +12,14 @@ if [ -f "$HOME/Code/pi-sandbox/.env" ]; then
   ENV_FLAGS=(--env-file "$HOME/Code/pi-sandbox/.env")
 fi
 
-mkdir -p "$HOME/Downloads/isos"
+# Fine-grained PAT, public repos read-only: gh can read PRs, never write; post reviews from the host
+if [ -f "$HOME/.config/pi-sandbox/gh-token" ]; then
+  GH_TOKEN=$(<"$HOME/.config/pi-sandbox/gh-token")
+  export GH_TOKEN
+  ENV_FLAGS+=(-e GH_TOKEN)
+fi
+
+mkdir -p "$HOME/Downloads/isos" "$HOME/Code/pi-sandbox/skills"
 
 FLAGS=(
   --rm

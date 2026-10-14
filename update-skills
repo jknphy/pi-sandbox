@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# ./update-skills  fetch every skill in skills.txt into skills/<name>, replacing old copies
+
+set -euo pipefail
+
+cd "$(dirname "$0")"
+mkdir -p skills
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+
+while read -r repo path; do
+  [[ -z "$repo" || "$repo" == \#* ]] && continue
+  name=$(basename "$path")
+  git clone -q --depth 1 "https://github.com/$repo" "$tmp/$name"
+  rm -rf "skills/$name"
+  cp -r "$tmp/$name/$path" "skills/$name"
+  echo "$name <- $repo@$(git -C "$tmp/$name" rev-parse --short HEAD)"
+done < skills.txt

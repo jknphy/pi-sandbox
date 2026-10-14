@@ -15,7 +15,7 @@ The agent can read the project (`$PWD` mounted at `/workspace`) and the mounted 
 | `APPEND_SYSTEM.md` | Extra system prompt |
 | `prompts/` | Prompt templates (`refactor`) |
 | `skills-custom/` | Own skills: `download-iso`, `modify-iso`, `prepare-iso` (SLES 16.x test ISOs) |
-| `skills/` | Downloaded third-party skills (`find-skills`, `herdr`), read-only |
+| `skills.txt`, `update-skills` | Third-party skills (`openqa`): list and fetcher into `skills/` (gitignored, mounted read-only) |
 | `extensions-custom/` | Custom extensions |
 | `.env` | Non-sensitive config, gitignored; copy from `.env.example` |
 
@@ -23,6 +23,7 @@ The agent can read the project (`$PWD` mounted at `/workspace`) and the mounted 
 
 ```bash
 pi-sandbox [args]  # run the agent in a fresh --rm container; args go to pi (e.g. --perm plan)
+./update-skills    # fetch/update third-party skills listed in skills.txt (after clone, or to update)
 ```
 
 Permission modes (Default, Plan Mode, Build, YOLO; `alt+m` or `/perm <mode>`) come from
@@ -52,6 +53,7 @@ State lives in the `pi-agent-home` volume and survives rebuilds.
 
 - Rootless podman, `--cap-drop=ALL`, `no-new-privileges`.
 - `--cap-add=SETFCAP` and `unmask=/proc/*` so bubblewrap can run inside the container (uid map + fresh `/proc`).
+- `gh` gets `GH_TOKEN` from `~/.config/pi-sandbox/gh-token` (if present): a fine-grained PAT with public-repo read-only access, so the container can't write to GitHub; post reviews from the host.
 - Only `application_default_credentials.json` is mounted (read-only), not the whole `~/.config/gcloud`; Pi's own `~/.pi/agent` is not mounted from the host.
 
 ## Todo

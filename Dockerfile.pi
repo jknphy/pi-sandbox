@@ -6,7 +6,7 @@ FROM opensuse/tumbleweed
 RUN zypper --non-interactive install --no-recommends \
       bash ca-certificates curl git ripgrep python3 jq \
       nodejs-default npm-default \
-      mkmedia xorriso openQA-client vim fd \
+      mkmedia xorriso openQA-client vim fd gh \
       which bubblewrap socat \
   && zypper clean --all
 

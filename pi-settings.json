@@ -31,6 +31,6 @@
   "tuiMode": "fullscreen",
   "externalEditor": "vim",
   "enableInstallTelemetry": false,
-  "lastChangelogVersion": "1.1.0",
+  "lastChangelogVersion": "1.2.0",
   "hideThinkingBlock": true
 }
