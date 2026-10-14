@@ -23,7 +23,7 @@ The agent can read the project (`$PWD` mounted at `/workspace`) and the mounted 
 
 ```bash
 pi-sandbox [args]  # run the agent in a fresh --rm container; args go to pi (e.g. --perm plan)
-./update-skills    # fetch/update third-party skills listed in skills.txt (after clone, or to update)
+./update-skills    # fetch third-party skills listed in skills.txt (pi-sandbox also runs it on every start)
 ```
 
 Permission modes (Default, Plan Mode, Build, YOLO; `alt+m` or `/perm <mode>`) come from

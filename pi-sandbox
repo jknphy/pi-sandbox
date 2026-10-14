@@ -19,7 +19,9 @@ if [ -f "$HOME/.config/pi-sandbox/gh-token" ]; then
   ENV_FLAGS+=(-e GH_TOKEN)
 fi
 
-mkdir -p "$HOME/Downloads/isos" "$HOME/Code/pi-sandbox/skills"
+mkdir -p "$HOME/Downloads/isos"
+# Offline or GitHub down: keep the last fetched copies and start anyway
+"$HOME/Code/pi-sandbox/update-skills" || echo "update-skills failed, using existing skills" >&2
 
 FLAGS=(
   --rm
