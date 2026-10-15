@@ -51,6 +51,12 @@ podman build --no-cache --pull=newer -f Dockerfile.pi -t pi-sandbox .
 No restart needed: each `pi-sandbox` run starts a new container from the image.
 State lives in the `pi-agent-home` volume and survives rebuilds.
 
+To start from scratch (drops auth, sessions and installed packages; packages reinstall on the next run):
+
+```bash
+podman volume rm pi-agent-home  # no pi-sandbox container may be running
+```
+
 ## Sandbox
 
 - Rootless podman, `--cap-drop=ALL`, `no-new-privileges`.

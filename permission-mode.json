@@ -3,20 +3,24 @@
   "modes": {
     "default": {
       "permission": {
-        "external_directory": { "*": "ask", "/root/.pi/agent/skills*": "allow" }
+        "external_directory": { "*": "ask", "/root/.pi/agent/skills*": "allow", "/root/.pi/agent/git/*": "allow" }
+      },
+      "sandbox": {
+        "allowWrite": [".", "/tmp", "/root/.pi/agent/git"]
       }
     },
     "plan": {
       "permission": {
-        "external_directory": { "*": "ask", "/root/.pi/agent/skills*": "allow" }
+        "external_directory": { "*": "ask", "/root/.pi/agent/skills*": "allow", "/root/.pi/agent/git/*": "allow" }
       },
       "sandbox": {
         "allowWrite": [
           ".",
-          "/tmp/pi",
+          "/tmp",
           "/usr/local/lib/node_modules/@earendil-works/pi-coding-agent",
           "/root/.pi/agent/skills",
-          "/root/.pi/agent/skills-custom"
+          "/root/.pi/agent/skills-custom",
+          "/root/.pi/agent/git"
         ],
         "network": {
           "allowedDomains": [
