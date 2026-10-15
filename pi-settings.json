@@ -15,7 +15,8 @@
     "npm:pi-permission-modes",
     "npm:pi-web-access",
     "git:github.com/ayghri/i-have-adhd",
-    "npm:@dietrichgebert/ponytail"
+    "npm:@dietrichgebert/ponytail",
+    "git:github.com/os-autoinst/openQA-skill"
   ],
   "extensions": [
     "/root/.pi/agent/extensions-custom"
@@ -28,6 +29,7 @@
     "reserveTokens": 8000,
     "keepRecentTokens": 12000
   },
+  "defaultProjectTrust": "always",
   "tuiMode": "fullscreen",
   "externalEditor": "vim",
   "enableInstallTelemetry": false,

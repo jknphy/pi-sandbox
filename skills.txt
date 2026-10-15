@@ -1,3 +1,0 @@
-# Third-party skills fetched into skills/ by ./update-skills (not tracked)
-# <github owner/repo> <path of the skill dir in that repo>
-os-autoinst/openQA-skill skills/openqa

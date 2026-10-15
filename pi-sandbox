@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ~/.local/bin/pi-sandbox
-#   pi-sandbox [args]  run the agent; args go to pi (e.g. --perm plan)
+#   pi-sandbox [args]  run the agent; args go to pi (e.g. --perm plan, update --extensions)
 # Own config is mounted read-only; to edit skills/prompts/config, run a second
 # pi-sandbox from ~/Code/pi-sandbox and /reload the first one.
 
@@ -20,8 +20,6 @@ if [ -f "$HOME/.config/pi-sandbox/gh-token" ]; then
 fi
 
 mkdir -p "$HOME/Downloads/isos"
-# Offline or GitHub down: keep the last fetched copies and start anyway
-"$HOME/Code/pi-sandbox/update-skills" || echo "update-skills failed, using existing skills" >&2
 
 FLAGS=(
   --rm
@@ -50,11 +48,10 @@ FLAGS=(
   -v "$HOME/Code/pi-sandbox/APPEND_SYSTEM.md:/root/.pi/agent/APPEND_SYSTEM.md:ro"
   -v "$HOME/Code/pi-sandbox/i-have-adhd.json:/root/.pi/agent/i-have-adhd.json:ro"
   -v "$HOME/Code/pi-sandbox/skills-custom:/root/.pi/agent/skills-custom:ro"
-  -v "$HOME/Code/pi-sandbox/skills:/root/.pi/agent/skills:ro"
   -v "$HOME/Code/pi-sandbox/prompts:/root/.pi/agent/prompts:ro"
   -v "$HOME/Code/pi-sandbox/extensions-custom:/root/.pi/agent/extensions-custom:ro"
   -v "$HOME/Downloads/isos:/root/Downloads/isos"
   -v "$HOME/Code/pi-sandbox/client.conf:/root/.config/openqa/client.conf:ro"
 )
 
-podman run "${FLAGS[@]}" pi-sandbox --approve "$@"
+podman run "${FLAGS[@]}" pi-sandbox "$@"

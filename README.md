@@ -10,21 +10,23 @@ The agent can read the project (`$PWD` mounted at `/workspace`) and the mounted 
 |---|---|
 | `pi-sandbox` | Launcher script (install as `~/.local/bin/pi-sandbox`) |
 | `Dockerfile.pi` | Image `pi-sandbox`: openSUSE Tumbleweed + Node, ripgrep, jq, mkmedia, xorriso, bubblewrap, socat, SUSE CA |
-| `pi-settings.json`, `pi-models.json`, `web-search.json` | Pi config, mounted read-only (default model, Vertex/Ollama providers, packages, web-search) |
+| `pi-settings.json`, `pi-models.json`, `web-search.json` | Pi config, mounted read-only (default model, Vertex/Ollama providers, packages incl. the `openqa` skill, web-search) |
 | `permission-mode.json` | [pi-permission-modes](https://www.npmjs.com/package/pi-permission-modes) overrides (modes, network allowlist), layered on its defaults |
 | `APPEND_SYSTEM.md` | Extra system prompt |
 | `prompts/` | Prompt templates (`refactor`) |
 | `skills-custom/` | Own skills: `download-iso`, `modify-iso`, `prepare-iso` (SLES 16.x test ISOs) |
-| `skills.txt`, `update-skills` | Third-party skills (`openqa`): list and fetcher into `skills/` (gitignored, mounted read-only) |
 | `extensions-custom/` | Custom extensions |
 | `.env` | Non-sensitive config, gitignored; copy from `.env.example` |
 
 ## Usage
 
 ```bash
-pi-sandbox [args]  # run the agent in a fresh --rm container; args go to pi (e.g. --perm plan)
-./update-skills    # fetch third-party skills listed in skills.txt (pi-sandbox also runs it on every start)
+pi-sandbox [args]               # run the agent in a fresh --rm container; args go to pi (e.g. --perm plan)
+pi-sandbox update --extensions  # update all packages in pi-settings.json (extensions and skills like openqa)
 ```
+
+Third-party skills (`openqa`) come as pi packages in `pi-settings.json`, like extensions.
+Projects are trusted by `defaultProjectTrust: "always"` (loads their `.pi/` resources without asking).
 
 Permission modes (Default, Plan Mode, Build, YOLO; `alt+m` or `/perm <mode>`) come from
 pi-permission-modes: allow/ask/deny policy plus a bubblewrap sandbox for bash.
