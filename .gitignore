@@ -1,2 +1,4 @@
 .env
 client.conf
+.claude/
+plan/

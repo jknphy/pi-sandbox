@@ -28,6 +28,6 @@ ENV NODE_EXTRA_CA_CERTS=/etc/ssl/ca-bundle.pem
 RUN npm install -g @earendil-works/pi-coding-agent
 
 # Host ~/.pi/agent is deliberately not mounted (auth.json, sessions); state lives in the pi-agent-home volume.
-# Own config (skills, prompts, settings, permission-mode.json) is mounted ro; edit it from a pi-sandbox run in this repo.
+# Own config (skills, prompts, settings, config/) is mounted ro; edit it from a pi-sandbox run in this repo.
 WORKDIR /workspace
 ENTRYPOINT ["pi"]

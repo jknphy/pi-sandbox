@@ -41,12 +41,11 @@ FLAGS=(
   # agents can clash on sessions/auth. Make the name per-project, e.g.
   # "pi-agent-home-$(basename "$PWD")" (trade-off: separate sessions/login per project).
   -v "pi-agent-home:/root/.pi/agent"
-  -v "$HOME/Code/pi-sandbox/pi-settings.json:/root/.pi/agent/settings.json:ro"
-  -v "$HOME/Code/pi-sandbox/pi-models.json:/root/.pi/agent/models.json:ro"
-  -v "$HOME/Code/pi-sandbox/web-search.json:/root/.pi/agent/web-search.json:ro"
-  -v "$HOME/Code/pi-sandbox/permission-mode.json:/root/.pi/agent/permission-mode/permission-mode.json:ro"
-  -v "$HOME/Code/pi-sandbox/APPEND_SYSTEM.md:/root/.pi/agent/APPEND_SYSTEM.md:ro"
-  -v "$HOME/Code/pi-sandbox/i-have-adhd.json:/root/.pi/agent/i-have-adhd.json:ro"
+  -v "$HOME/Code/pi-sandbox/config/pi/settings.json:/root/.pi/agent/settings.json:ro"
+  -v "$HOME/Code/pi-sandbox/config/pi/models.json:/root/.pi/agent/models.json:ro"
+  -v "$HOME/Code/pi-sandbox/config/extensions/web-search.json:/root/.pi/agent/web-search.json:ro"
+  -v "$HOME/Code/pi-sandbox/config/extensions/permission-mode.json:/root/.pi/agent/permission-mode/permission-mode.json:ro"
+  -v "$HOME/Code/pi-sandbox/config/extensions/i-have-adhd.json:/root/.pi/agent/i-have-adhd.json:ro"
   -v "$HOME/Code/pi-sandbox/skills-custom:/root/.pi/agent/skills-custom:ro"
   -v "$HOME/Code/pi-sandbox/prompts:/root/.pi/agent/prompts:ro"
   -v "$HOME/Code/pi-sandbox/extensions-custom:/root/.pi/agent/extensions-custom:ro"

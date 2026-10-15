@@ -10,9 +10,9 @@ The agent can read the project (`$PWD` mounted at `/workspace`) and the mounted 
 |---|---|
 | `pi-sandbox` | Launcher script (install as `~/.local/bin/pi-sandbox`) |
 | `Dockerfile.pi` | Image `pi-sandbox`: openSUSE Tumbleweed + Node, ripgrep, jq, mkmedia, xorriso, bubblewrap, socat, SUSE CA |
-| `pi-settings.json`, `pi-models.json`, `web-search.json` | Pi config, mounted read-only (default model, Vertex/Ollama providers, packages incl. the `openqa` skill, web-search) |
-| `permission-mode.json` | [pi-permission-modes](https://www.npmjs.com/package/pi-permission-modes) overrides (modes, network allowlist), layered on its defaults |
-| `APPEND_SYSTEM.md` | Extra system prompt |
+| `config/pi/settings.json`, `config/pi/models.json` | Pi core config, mounted read-only (default model, Vertex/Ollama providers, packages incl. the `openqa` skill) |
+| `config/extensions/permission-mode.json` | [pi-permission-modes](https://www.npmjs.com/package/pi-permission-modes) overrides (modes, network allowlist), layered on its defaults |
+| `config/extensions/web-search.json`, `config/extensions/i-have-adhd.json` | Per-extension config for pi-web-access and i-have-adhd |
 | `prompts/` | Prompt templates (`refactor`) |
 | `skills-custom/` | Own skills: `download-iso`, `modify-iso`, `prepare-iso` (SLES 16.x test ISOs) |
 | `extensions-custom/` | Custom extensions |
@@ -22,20 +22,20 @@ The agent can read the project (`$PWD` mounted at `/workspace`) and the mounted 
 
 ```bash
 pi-sandbox [args]               # run the agent in a fresh --rm container; args go to pi (e.g. --perm plan)
-pi-sandbox update --extensions  # update all packages in pi-settings.json (extensions and skills like openqa)
+pi-sandbox update --extensions  # update all packages in config/pi/settings.json (extensions and skills like openqa)
 ```
 
-Third-party skills (`openqa`) come as pi packages in `pi-settings.json`, like extensions.
+Third-party skills (`openqa`) come as pi packages in `config/pi/settings.json`, like extensions.
 Projects are trusted by `defaultProjectTrust: "always"` (loads their `.pi/` resources without asking).
 
 Permission modes (Default, Plan Mode, Build, YOLO; `alt+m` or `/perm <mode>`) come from
 pi-permission-modes: allow/ask/deny policy plus a bubblewrap sandbox for bash.
 
-All own config is mounted read-only. To change skills, prompts or `permission-mode.json`,
+All own config is mounted read-only. To change skills, prompts or `config/extensions/permission-mode.json`,
 run a second `pi-sandbox` from `~/Code/pi-sandbox`, then `/reload` in the first one.
-Directories update live; single-file mounts (`*.json`, `APPEND_SYSTEM.md`) may need a restart
+Directories update live; single-file mounts (`*.json`) may need a restart
 if the file was replaced rather than edited in place. "Allow forever" can't persist from a
-read-only mount (it lasts the session); add the domain to `permission-mode.json` instead.
+read-only mount (it lasts the session); add the domain to `config/extensions/permission-mode.json` instead.
 
 Non-sensitive config (project ID, region) goes in `.env` (see `.env.example`).
 
