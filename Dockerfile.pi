@@ -10,6 +10,13 @@ RUN zypper --non-interactive install --no-recommends \
       which bubblewrap socat \
   && zypper clean --all
 
+# MOJO_CLIENT_DEBUG=1 makes openqa-cli dump request headers (API key) to stderr; the
+# permission rules can't see a VAR= prefix, so hard-wire it off. grep fails the build if
+# an update changes the line.
+RUN f=$(perl -MMojo::UserAgent -e 'print $INC{"Mojo/UserAgent.pm"}') \
+  && sed -i 's/^use constant DEBUG => $ENV{MOJO_CLIENT_DEBUG} || 0;/use constant DEBUG => 0;/' "$f" \
+  && grep -q '^use constant DEBUG => 0;' "$f"
+
 # SUSE internal CA (openqa.suse.de etc.)
 RUN zypper --non-interactive addrepo -r https://download.opensuse.org/repositories/SUSE:/CA/openSUSE_Tumbleweed/SUSE:CA.repo \
   && zypper --non-interactive --gpg-auto-import-keys install --no-recommends ca-certificates-suse \

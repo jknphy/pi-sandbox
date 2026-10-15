@@ -3,15 +3,71 @@
   "modes": {
     "default": {
       "permission": {
-        "external_directory": { "*": "ask", "/root/.pi/agent/skills*": "allow", "/root/.pi/agent/git/*": "allow" }
+        "external_directory": {
+          "*": "ask",
+          "/root/.pi/agent/skills*": "allow",
+          "/root/.pi/agent/git/*": "allow"
+        },
+        "path": {
+          "*": "allow",
+          "*.config/openqa*": "deny",
+          "*adc.json*": "deny",
+          "*application_default_credentials*": "deny",
+          "*.pi/agent/auth.json*": "deny",
+          "*.pi/agent/oauth.json*": "deny"
+        },
+        "bash": {
+          "*": "ask",
+          "*gh auth token*": "deny",
+          "*gh auth status*": "deny",
+          "*credential fill*": "deny",
+          "*MOJO_CLIENT_DEBUG*": "deny",
+          "*--apikey*": "deny",
+          "*--apisecret*": "deny",
+          "*-H*uthorization*": "deny",
+          "*--header*uthorization*": "deny",
+          "*GH_TOKEN*": "deny",
+          "env": "deny",
+          "printenv*": "deny"
+        }
       },
       "sandbox": {
-        "allowWrite": [".", "/tmp", "/root/.pi/agent/git"]
+        "allowWrite": [
+          ".",
+          "/tmp",
+          "/root/.pi/agent/git"
+        ]
       }
     },
     "plan": {
       "permission": {
-        "external_directory": { "*": "ask", "/root/.pi/agent/skills*": "allow", "/root/.pi/agent/git/*": "allow" }
+        "external_directory": {
+          "*": "ask",
+          "/root/.pi/agent/skills*": "allow",
+          "/root/.pi/agent/git/*": "allow"
+        },
+        "path": {
+          "*": "allow",
+          "*.config/openqa*": "deny",
+          "*adc.json*": "deny",
+          "*application_default_credentials*": "deny",
+          "*.pi/agent/auth.json*": "deny",
+          "*.pi/agent/oauth.json*": "deny"
+        },
+        "bash": {
+          "*": "allow",
+          "*gh auth token*": "deny",
+          "*gh auth status*": "deny",
+          "*credential fill*": "deny",
+          "*MOJO_CLIENT_DEBUG*": "deny",
+          "*--apikey*": "deny",
+          "*--apisecret*": "deny",
+          "*-H*uthorization*": "deny",
+          "*--header*uthorization*": "deny",
+          "*GH_TOKEN*": "deny",
+          "env": "deny",
+          "printenv*": "deny"
+        }
       },
       "sandbox": {
         "allowWrite": [
@@ -39,6 +95,32 @@
             "example.com"
           ],
           "deniedDomains": []
+        }
+      }
+    },
+    "build": {
+      "permission": {
+        "path": {
+          "*": "allow",
+          "*.config/openqa*": "deny",
+          "*adc.json*": "deny",
+          "*application_default_credentials*": "deny",
+          "*.pi/agent/auth.json*": "deny",
+          "*.pi/agent/oauth.json*": "deny"
+        },
+        "bash": {
+          "*": "allow",
+          "*gh auth token*": "deny",
+          "*gh auth status*": "deny",
+          "*credential fill*": "deny",
+          "*MOJO_CLIENT_DEBUG*": "deny",
+          "*--apikey*": "deny",
+          "*--apisecret*": "deny",
+          "*-H*uthorization*": "deny",
+          "*--header*uthorization*": "deny",
+          "*GH_TOKEN*": "deny",
+          "env": "deny",
+          "printenv*": "deny"
         }
       }
     }
